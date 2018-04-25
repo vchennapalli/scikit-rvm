@@ -10,7 +10,7 @@ from sklearn.metrics.pairwise import (
     rbf_kernel,
     polynomial_kernel
 )
-from sklearn.multiclass import OneVsOneClassifier
+from sklearn.multiclass import OneVsOneClassifier, OneVsRestClassifier
 from sklearn.utils.validation import check_X_y
 
 
@@ -279,7 +279,7 @@ class RVC(BaseRVM, ClassifierMixin):
             return super(RVC, self).fit(X, self.t)
         else:
             self.multi_ = None
-            self.multi_ = OneVsOneClassifier(self)
+            self.multi_ = OneVsRestClassifier(self)
             self.multi_.fit(X, y)
             return self
 
