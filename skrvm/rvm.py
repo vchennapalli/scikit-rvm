@@ -285,9 +285,12 @@ class RVC(BaseRVM, ClassifierMixin):
 
     def predict_proba(self, X):
         """Return an array of class probabilities."""
-        phi = self._apply_kernel(X, self.relevance_)
-        y = self._classify(self.m_, phi)
-        return np.column_stack((1-y, y))
+        if len(self.classes_) == 2:
+            phi = self._apply_kernel(X, self.relevance_)
+            y = self._classify(self.m_, phi)
+            return np.column_stack((1-y, y))
+        else:
+            return self.multi_.predict_proba(X)
 
     def predict(self, X):
         """Return an array of classes for each input."""
